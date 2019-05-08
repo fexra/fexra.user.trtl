@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>fexra's void</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.12.2/xterm.min.css"
+      integrity="sha256-yH4D2bQ5dJfjAe//mOVCOsQxN/1PMZCgB+5UmQBYkIc="
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.12.2/addons/fullscreen/fullscreen.min.css"
+      integrity="sha256-4JzhkMjg+jebGTPw+iis0A3of5Wsy/ee6WBtbCH3NEQ="
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        background-color: black;
+      }
+
+      #terminal {
+        overflow: hidden;
+        width: 100%;
+        height: 100vh; /* <- fixed height */
+      }
+
+      .xterm-viewport {
+        overflow: hidden !important;
+      }
+    </style>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.12.2/xterm.min.js"
+      integrity="sha256-r5hvtWB/2oRg812Kr6tw5DKQyJK3keJ5t5tLHmaewMM="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.12.2/addons/fullscreen/fullscreen.min.js"
+      integrity="sha256-1Io2LnfMKhhVMA3JL6qk4TqIsv0ct+QYCbfMJDCWD+c="
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.12.2/addons/fit/fit.min.js"
+      integrity="sha256-Vvl5QLKP5SDSGRRpXYjWYeNYZTrCgpoAX6Ug0oDAGGM="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div id="terminal"></div>
+    <script>
+      //Terminal.applyAddon(fullscreen);
+      Terminal.applyAddon(fit);
+      var term = new Terminal();
+      term.open(document.getElementById("terminal"));
+      // term.toggleFullScreen();
+      term.fit();
+
+      function runFakeTerminal() {
+        if (term._initialized) {
+          return;
+        }
+
+        term._initialized = true;
+
+        term.prompt = () => {
+          term.write("\r\n$ ");
+        };
+
+        term.writeln("Welcome to my void.");
+        term.writeln("");
+        term.prompt();
+
+        term.on("key", function(key, ev) {
+          const printable =
+            !ev.altKey && !ev.altGraphKey && !ev.ctrlKey && !ev.metaKey;
+
+          if (ev.keyCode === 13) {
+            term.prompt();
+          } else if (ev.keyCode === 8) {
+            // Do not delete the prompt
+            if (term._core.buffer.x > 2) {
+              term.write("\b \b");
+            }
+          } else if (printable) {
+            term.writeln(" * g o a t s e x * g o a t s e x * g o a t s e x *");
+            term.writeln("g                                               g");
+            term.writeln("o /     \             \            /    \       o");
+            term.writeln("a|       |             \          |      |      a");
+            term.writeln("t|       `.             |         |       :     t");
+            term.writeln("s`        |             |        \|       |     s");
+            term.writeln("e \       | /       /  \\\   --__ \\       :    e");
+            term.writeln("x  \      \/   _--~~          ~--__| \     |    x");
+            term.writeln("*   \      \_-~                    ~-_\    |    *");
+            term.writeln("g    \_     \        _.--------.______\|   |    g");
+            term.writeln("o      \     \______// _ ___ _ (_(__>  \   |    o");
+            term.writeln("a       \   .  C ___)  ______ (_(____>  |  /    a");
+            term.writeln("t       /\ |   C ____)/      \ (_____>  |_/     t");
+            term.writeln("s      / /\|   C_____)       |  (___>   /  \    s");
+            term.writeln("e     |   (   _C_____)\______/  // _/ /     \   e");
+            term.writeln("x     |    \  |__   \\_________// (__/       |  x");
+            term.writeln("*    | \    \____)   `----   --'             |  *");
+            term.writeln("g    |  \_          ___\       /_          _/ | g");
+            term.writeln("o   |              /    |     |  \            | o");
+            term.writeln("a   |             |    /       \  \           | a");
+            term.writeln("t   |          / /    |         |  \           |t");
+            term.writeln("s   |         / /      \__/\___/    |          |s");
+            term.writeln("e  |           /        |    |       |         |e");
+            term.writeln("x  |          |         |    |       |         |x");
+            term.writeln("* g o a t s e x * g o a t s e x * g o a t s e x *");
+          }
+        });
+
+        term.on("paste", function(data) {
+          term.write(data);
+        });
+      }
+      runFakeTerminal();
+    </script>
+  </body>
+</html>
